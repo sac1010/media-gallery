@@ -57,6 +57,8 @@ const Register: React.FC = () => {
   return (
     <>
     <div className="w-full h-screen bg-gray-800 flex items-center justify-center">
+    <img src="/bg.jpg" className="w-1/2 h-screen object-fill" alt="" />
+      <div className="w-1/2 h-screen flex items-center justify-center">
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
         <input
           name="userName"
@@ -92,6 +94,7 @@ const Register: React.FC = () => {
           Login
         </Link>
       </form>
+        </div>
     </div>
     {loading && <Spinner/>}
     </>
