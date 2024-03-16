@@ -5,6 +5,8 @@ import { auth, db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import Spinner from "../components/Spinner";
 
 interface FormData {
   userName: string;
@@ -47,12 +49,13 @@ const Register: React.FC = () => {
         email: formData.email,
       });
       console.log(user);
-    } catch (e:any) {
-      console.log(e.message);
+    } catch (e: any) {
+      toast.error(e.message);
     }
   };
 
   return (
+    <>
     <div className="w-full h-screen bg-gray-800 flex items-center justify-center">
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
         <input
@@ -90,6 +93,8 @@ const Register: React.FC = () => {
         </Link>
       </form>
     </div>
+    {loading && <Spinner/>}
+    </>
   );
 };
 

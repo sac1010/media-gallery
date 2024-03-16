@@ -7,17 +7,22 @@ type props = {
 };
 
 const Usage = ({ mediaData }: props) => {
+
   let data;
+  let total = 0;
   if (mediaData) {
     data = convertMediaData(mediaData);
+    data.forEach((data) => {
+      total += data.value;
+    });
   }
   const colors = ["#a9d2ff", "#82b9ff"];
 
   return (
     <>
-      {data && data.length > 0 ? (
+      {mediaData && data && data.length > 0 ? (
         <div className="col-span-6 h-[42.5vh] bg-gray-100 border-2 border-dashed border-gray-400">
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="90%">
             <PieChart>
               <Pie
                 data={data}
@@ -47,6 +52,10 @@ const Usage = ({ mediaData }: props) => {
               />
             </PieChart>
           </ResponsiveContainer>
+          <div className="text-center">
+            Total space used :{" "}
+            {`${total.toFixed(1)} MB`}
+          </div>
         </div>
       ) : (
         <div className="col-span-6 h-[42.5vh] bg-gray-100 border-2 border-dashed border-gray-400 flex items-center justify-center">

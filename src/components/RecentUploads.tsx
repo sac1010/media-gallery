@@ -7,12 +7,15 @@ const RecentUploads = ({ mediaData }: any) => {
       <div className="w-full grid grid-cols-12 text-center mt-4">
         <div className="col-span-4 h-4 font-semibold">Name</div>
         <div className="col-span-4 h-4 font-semibold">Type</div>
-        <div className="col-span-4 h-4 font-semibold">Size -mb</div>
+        <div className="col-span-4 h-4 font-semibold">Size (MB)</div>
       </div>
       {mediaData &&
         mediaData.slice(0, 4).map((data: any) => {
           return (
-            <div key={data.id} className="-full grid grid-cols-12 text-center mt-4">
+            <div
+              key={data.id}
+              className="-full grid grid-cols-12 text-center mt-4"
+            >
               <div className="col-span-4 overflow-hidden">{data.data.name}</div>
               <div className="col-span-4 "> {data.data.type}</div>
               <div className="col-span-4 "> {data.data.size.toFixed(1)}</div>

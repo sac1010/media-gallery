@@ -1,9 +1,9 @@
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import {  signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-
+import { toast } from "react-toastify";
 
 interface FormData {
   email: string;
@@ -20,12 +20,11 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (loading) {
-      // maybe trigger a loading screen
       return;
     }
-    if (user){
+    if (user) {
       navigate("/");
-    } 
+    }
   }, [user, loading]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -43,8 +42,8 @@ const Login: React.FC = () => {
       );
       navigate("/");
       console.log(user);
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      toast.error(e.message);
     }
   };
 
