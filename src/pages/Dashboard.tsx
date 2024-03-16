@@ -7,13 +7,22 @@ import Sidebar from "../components/Sidebar";
 import Upload from "../components/Upload";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { fetchMediaByUser } from "../utils/utils";
+import { wait } from "@testing-library/user-event/dist/utils";
+import Usage from "../components/Usage";
+import RecentUploads from "../components/RecentUploads";
 
 type Props = {};
 
+export interface MediaData {
+  id: string;
+  data: any;
+}
 const Dashboard = (props: Props) => {
   const [logoutModal, setLogoutModal] = useState(false);
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
+  const [mediaData, setMediaData] = useState<MediaData[] | null>(null);
 
   const fetchUserName = async () => {
     try {
@@ -26,15 +35,32 @@ const Dashboard = (props: Props) => {
     }
   };
 
+  const fetchData = async () => {
+    if (user) {
+      const res = await fetchMediaByUser(user.uid);
+      const data: MediaData[] = [];
+      res.forEach((doc) => {
+        console.log(doc.data(), "data");
+        data.push({
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+
+      setMediaData(data);
+    }
+  };
+
   useEffect(() => {
     fetchUserName();
+    fetchData();
   }, [user, loading]);
 
   const handleLogout = () => {
     signOut(auth);
   };
   return (
-    <div className="w-full h-screen bg-gray-200 flex ">
+    <div className="w-full h-screen flex ">
       <Sidebar />
       <div className="w-10/12 h-screen pt-16 p-4 grid grid-cols-12 gap-6 relative">
         {name && (
@@ -42,7 +68,9 @@ const Dashboard = (props: Props) => {
             {`Welcome back ${name}`}
           </div>
         )}
-        <Upload />
+        <Upload fetchData={fetchData} />
+        <Usage mediaData={mediaData}/>
+        <RecentUploads mediaData={mediaData} />
       </div>
 
       <Modal

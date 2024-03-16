@@ -6,7 +6,7 @@ type Props = {};
 const Sidebar = (props: Props) => {
   const { pathname } = useLocation();
   return (
-    <div className="w-2/12 bg-gray-400 h-screen relative flex items-center justify-center">
+    <div className="w-2/12 bg-gray-600 h-screen relative flex items-center justify-center">
       <div className="flex flex-col gap-5">
         <Link
           to="/"

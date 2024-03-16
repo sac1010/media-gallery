@@ -1,15 +1,31 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import upload from "../assets/upload.svg";
 import Modal from "./Modal";
 import Spinner from "./Spinner";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { addMedia } from "../utils/utils";
 
-const Upload: React.FC = () => {
+export interface FileData {
+  name: string | undefined;
+  size: number;
+  type: string;
+  url: string;
+}
+
+type props = {
+  fetchData: any;
+};
+
+const Upload = ({ fetchData }: props) => {
   const [uploadModal, setUploadModal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [user, userLoading, error] = useAuthState(auth);
+
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
 
@@ -29,8 +45,9 @@ const Upload: React.FC = () => {
     setLoading(true);
     let fileData = {
       name: file?.name,
-      size: file ? file.size : 0 / 1000000,
+      size: file ? file.size / 1000000 : 0,
       type: "",
+      url: "",
     };
     if (file?.type.startsWith("image/")) {
       fileData.type = "image";
@@ -48,6 +65,10 @@ const Upload: React.FC = () => {
         "https://api.cloudinary.com/v1_1/dcmid4z9m/upload",
         data
       );
+      console.log(res.data.url);
+      fileData.url = res.data.url;
+      await addMedia(fileData, user);
+      fetchData();
       toast.success("Upload Successful");
     }
     setLoading(false);
@@ -56,7 +77,7 @@ const Upload: React.FC = () => {
 
   return (
     <div
-      className={`col-span-6 h-[42.5vh] flex justify-center items-center border-2 border-dashed border-gray-400 relative`}
+      className={`col-span-6 h-[42.5vh] bg-gray-100 flex justify-center items-center border-2 border-dashed border-gray-400 relative`}
     >
       <div className="absolute z-0 flex flex-col justify-center items-center">
         <img src={upload} className="w-10 h-10 opacity-50" alt="" />
