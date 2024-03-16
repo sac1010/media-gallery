@@ -25,13 +25,15 @@ const Dashboard = (props: Props) => {
   const [mediaData, setMediaData] = useState<MediaData[] | null>(null);
 
   const fetchUserName = async () => {
-    try {
-      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-      const doc = await getDocs(q);
-      const data = doc.docs[0].data();
-      setName(data.name);
-    } catch (err) {
-      console.error(err);
+    if (user) {
+      try {
+        const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+        const doc = await getDocs(q);
+        const data = doc.docs[0].data();
+        setName(data.name);
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 
@@ -69,7 +71,7 @@ const Dashboard = (props: Props) => {
           </div>
         )}
         <Upload fetchData={fetchData} />
-        <Usage mediaData={mediaData}/>
+        <Usage mediaData={mediaData} />
         <RecentUploads mediaData={mediaData} />
       </div>
 

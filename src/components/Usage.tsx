@@ -11,7 +11,8 @@ const Usage = ({ mediaData }: props) => {
   if (mediaData) {
     data = convertMediaData(mediaData);
   }
-  const COLORS = ["#a8ddb5", "#87c994", "#6cae75", "#4e934f", "#3c7326"];
+  const colors = ["#a9d2ff", "#82b9ff"];
+
   return (
     <>
       {data && data.length > 0 ? (
@@ -30,7 +31,7 @@ const Usage = ({ mediaData }: props) => {
                 {data.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
+                    fill={colors[index % colors.length]}
                   />
                 ))}
               </Pie>
@@ -41,7 +42,7 @@ const Usage = ({ mediaData }: props) => {
                 payload={data.map((entry, index) => ({
                   value: entry.label,
                   type: "rect",
-                  color: COLORS[index % COLORS.length],
+                  color: colors[index % colors.length],
                 }))}
               />
             </PieChart>
