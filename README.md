@@ -4,6 +4,11 @@
 
  A web application for managing media files. It allows users to register and upload images and videos, view media files in fullscreen mode. Built with React js and tailwind CSS. Firebase has been used for authentication and database.
 
+## Testing
+use the below credentials or create a new account for testing
+email: sachingirish101@gmail.com
+password: 101010
+
 ## Screenshots
 
 ![Screenshot 1](public/Screenshot%202024-03-16%20155955.png)
