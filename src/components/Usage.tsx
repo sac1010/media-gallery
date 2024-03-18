@@ -7,7 +7,6 @@ type props = {
 };
 
 const Usage = ({ mediaData }: props) => {
-
   let data;
   let total = 0;
   if (mediaData) {
@@ -45,7 +44,7 @@ const Usage = ({ mediaData }: props) => {
                 align="right"
                 layout="vertical"
                 payload={data.map((entry, index) => ({
-                  value: entry.label,
+                  value: `${entry.label} (${entry.value.toFixed(1)} MB)`,
                   type: "rect",
                   color: colors[index % colors.length],
                 }))}

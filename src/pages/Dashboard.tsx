@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import logout from "../assets/logout.svg";
 import Modal from "../components/Modal";
 import { signOut } from "firebase/auth";
@@ -8,7 +8,6 @@ import Upload from "../components/Upload";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { fetchMediaByUser } from "../utils/utils";
-import { wait } from "@testing-library/user-event/dist/utils";
 import Usage from "../components/Usage";
 import RecentUploads from "../components/RecentUploads";
 
